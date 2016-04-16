@@ -120,7 +120,9 @@ class Nylas {
         $suffix = ($namespace) ? '/'.$klass->apiRoot.'/'.$namespace : '';
         $url = $this->apiServer.$suffix.'/'.$klass->collectionName;
         $url = $url.'?'.http_build_query($filter);
-        $data = $this->apiClient->get($url, $this->createHeaders())->json();
+        $data = $this->apiClient->get($url, $this->createHeaders())->getBody()->getContents();
+
+        $data = json_decode($data, TRUE);
 
         $mapped = array();
         foreach ($data as $i) {
